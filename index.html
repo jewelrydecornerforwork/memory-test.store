@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Test - Online Memory Training Game | Improve Your Memory Skills</title>
+    <meta name="description" content="Challenge your memory with our free online Memory Test game. 20 levels of increasing difficulty from 1-digit to 20-digit numbers. Train your brain and improve cognitive abilities.">
+    <meta name="keywords" content="memory test, memory game, brain training, cognitive test, memory improvement, online game, mental exercise, brain workout">
+    <meta name="author" content="MemoryTest.io">
+    <meta property="og:title" content="Memory Test - Online Memory Training Game">
+    <meta property="og:description" content="Challenge your memory with 20 levels of difficulty. Free online brain training game.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://memory-test.store">
+    <link rel="canonical" href="https://memory-test.store">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Game Section */
+        .game-section {
+            padding: 4rem 0;
+            background: #f8f9fa;
+        }
+
+        .game-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+        }
+
+        .game-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .game-iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            display: block;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* How to Play Section */
+        .how-to-play {
+            padding: 4rem 0;
+            background: #f8f9fa;
+        }
+
+        .how-to-play h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .step-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        /* Scoring Section */
+        .scoring {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .scoring h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .scoring-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .scoring-table {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .scoring-table h3 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .score-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .score-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .performance-levels {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .performance-levels h3 {
+            margin-bottom: 1rem;
+        }
+
+        .level-item {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .level-emoji {
+            font-size: 1.5rem;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 4rem 0;
+            background: #f8f9fa;
+        }
+
+        .benefits h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .benefit-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .faq h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .faq-item {
+            background: #f8f9fa;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: #667eea;
+            color: white;
+            padding: 1.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 1.5rem;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 0 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #34495e;
+            padding-top: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .scoring-content {
+                grid-template-columns: 1fr;
+            }
+
+            .game-iframe {
+                height: 500px;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#home" class="logo">MemoryTest.io</a>
+            <ul class="nav-links">
+                <li><a href="#game">Play Game</a></li>
+                <li><a href="#how-to-play">How to Play</a></li>
+                <li><a href="#scoring">Scoring</a></li>
+                <li><a href="#benefits">Benefits</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="container">
+                <h1>Memory Test Challenge</h1>
+                <p>Train your brain with our progressive memory test. Challenge yourself through 20 levels of increasing difficulty and discover your memory potential.</p>
+                <a href="#game" class="cta-button">Start Memory Test</a>
+            </div>
+        </section>
+
+        <!-- Game Section -->
+        <section id="game" class="game-section">
+            <div class="container">
+                <h2>Play Memory Test Online</h2>
+                <div class="game-container">
+                    <iframe src="https://memory-test.store/game.html" class="game-iframe" title="Memory Test Game"></iframe>
+                </div>
+                <p style="text-align: center; color: #666; margin-top: 1rem;">
+                    Experience the ultimate memory challenge with our interactive brain training game.
+                </p>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <h2>Why Choose Our Memory Test?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🧠</div>
+                        <h3>Progressive Difficulty</h3>
+                        <p>Start with single digits and progress to 20-digit numbers, challenging your memory at every level.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⏱️</div>
+                        <h3>Timed Challenges</h3>
+                        <p>Each level gives you exactly 5 seconds to memorize numbers, training your quick recall abilities.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏆</div>
+                        <h3>Performance Tracking</h3>
+                        <p>Track your progress with detailed scoring and performance ratings to measure improvement.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How to Play Section -->
+        <section id="how-to-play" class="how-to-play">
+            <div class="container">
+                <h2>How to Play Memory Test</h2>
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Read the Rules</h3>
+                        <p>Familiarize yourself with the game mechanics and scoring system before starting your memory test journey.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Memorize Numbers</h3>
+                        <p>Watch the screen as random numbers appear for exactly 5 seconds. Focus and commit them to memory.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Enter Your Answer</h3>
+                        <p>After the countdown, type the number you memorized into the input field and submit your answer.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h3>Progress Through Levels</h3>
+                        <p>Complete all 20 levels, with each level adding one more digit to increase the memory challenge.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scoring Section -->
+        <section id="scoring" class="scoring">
+            <div class="container">
+                <h2>Memory Test Scoring System</h2>
+                <div class="scoring-content">
+                    <div class="scoring-table">
+                        <h3>Points Per Level</h3>
+                        <div class="score-row">
+                            <span>Level 1 (1 digit)</span>
+                            <span>5 points</span>
+                        </div>
+                        <div class="score-row">
+                            <span>Level 2 (2 digits)</span>
+                            <span>10 points</span>
+                        </div>
+                        <div class="score-row">
+                            <span>Level 3 (3 digits)</span>
+                            <span>15 points</span>
+                        </div>
+                        <div class="score-row">
+                            <span>...</span>
+                            <span>...</span>
+                        </div>
+                        <div class="score-row">
+                            <span>Level 20 (20 digits)</span>
+                            <span>100 points</span>
+                        </div>
+                        <div class="score-row">
+                            <span>Maximum Total Score</span>
+                            <span>1,050 points</span>
+                        </div>
+                    </div>
+                    <div class="performance-levels">
+                        <h3>Performance Ratings</h3>
+                        <div class="level-item">
+                            <span class="level-emoji">🏆</span>
+                            <div>
+                                <strong>Excellent (840+ points)</strong><br>
+                                Outstanding memory performance
+                            </div>
+                        </div>
+                        <div class="level-item">
+                            <span class="level-emoji">🥉</span>
+                            <div>
+                                <strong>Good (630-839 points)</strong><br>
+                                Above average memory skills
+                            </div>
+                        </div>
+                        <div class="level-item">
+                            <span class="level-emoji">📈</span>
+                            <div>
+                                <strong>Fair (420-629 points)</strong><br>
+                                Room for improvement
+                            </div>
+                        </div>
+                        <div class="level-item">
+                            <span class="level-emoji">💪</span>
+                            <div>
+                                <strong>Keep Practicing (0-419 points)</strong><br>
+                                Practice makes perfect
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section id="benefits" class="benefits">
+            <div class="container">
+                <h2>Benefits of Memory Training</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <h3>🎯 Improved Focus</h3>
+                        <p>Regular memory training enhances your ability to concentrate and maintain attention for longer periods.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>⚡ Faster Recall</h3>
+                        <p>Strengthen your ability to quickly retrieve information from memory, useful in daily life and work.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>🧩 Enhanced Cognitive Function</h3>
+                        <p>Memory exercises stimulate neural pathways and may help maintain cognitive health as you age.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>📚 Better Learning</h3>
+                        <p>Improved memory skills translate to better performance in academic and professional settings.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>🎪 Mental Agility</h3>
+                        <p>Regular brain training keeps your mind sharp and adaptable to new challenges and information.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>💡 Problem Solving</h3>
+                        <p>Enhanced memory capacity supports better analytical thinking and problem-solving abilities.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="faq">
+            <div class="container">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        How does the Memory Test work?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        The Memory Test consists of 20 levels, starting with 1-digit numbers and progressing to 20-digit numbers. Each level displays a random number for exactly 5 seconds, then you must enter what you remember.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        What's the highest possible score?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        The maximum score is 1,050 points. This is achieved by correctly answering all 20 levels, with points awarded as: Level 1 = 5 points, Level 2 = 10 points, up to Level 20 = 100 points.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Is the Memory Test free to play?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! Our Memory Test is completely free to play. No registration or payment required. Simply visit our website and start training your memory immediately.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Can I play on mobile devices?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutely! Our Memory Test is fully responsive and works perfectly on smartphones, tablets, and desktop computers. The game adapts to your screen size for optimal playing experience.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        How can I improve my memory test scores?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Practice regularly, try to find patterns in numbers, use visualization techniques, and create mental associations. The more you play, the better your memory will become at handling longer number sequences.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MemoryTest.io</h3>
+                    <p>Train your brain with our free online memory test. Challenge yourself and improve your cognitive abilities through progressive difficulty levels.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="#game" style="color: #667eea;">Play Game</a></p>
+                    <p><a href="#how-to-play" style="color: #667eea;">How to Play</a></p>
+                    <p><a href="#scoring" style="color: #667eea;">Scoring System</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Benefits</h3>
+                    <p>Improve focus, enhance recall speed, boost cognitive function, and maintain mental agility through regular memory training.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MemoryTest.io. All rights reserved. | Train Your Memory, Challenge Your Mind</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+                item.querySelector('.faq-question span').textContent = '+';
+            });
+            
+            // Open clicked item if it wasn't active
+            if (!isActive) {
+                faqItem.classList.add('active');
+                element.querySelector('span').textContent = '−';
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
