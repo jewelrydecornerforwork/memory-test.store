@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Test Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .game-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .welcome-screen {
+            max-width: 600px;
+        }
+
+        .game-title {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #fff;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .rules {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .rules h3 {
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            color: #ffeb3b;
+        }
+
+        .start-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .game-screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-bar {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .level-indicator {
+            width: 30px;
+            height: 30px;
+            border: 2px solid white;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: bold;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .level-indicator.correct {
+            background: #4caf50;
+            border-color: #4caf50;
+        }
+
+        .level-indicator.incorrect {
+            background: #f44336;
+            border-color: #f44336;
+        }
+
+        .level-indicator.current {
+            background: #ffeb3b;
+            color: #333;
+            border-color: #ffeb3b;
+        }
+
+        .game-info {
+            margin-bottom: 30px;
+        }
+
+        .level-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .countdown {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ffeb3b;
+        }
+
+        .number-display {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 40px 0;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            letter-spacing: 2px;
+        }
+
+        .input-section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .number-input {
+            font-size: 1.5em;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            width: 300px;
+            max-width: 90vw;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #4caf50, #45a049);
+            color: white;
+            padding: 12px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .result-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .final-score {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ffeb3b;
+        }
+
+        .rating {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+        }
+
+        .restart-btn {
+            background: linear-gradient(45deg, #2196f3, #1976d2);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .game-title {
+                font-size: 2em;
+            }
+            
+            .number-display {
+                font-size: 2.5em;
+            }
+            
+            .progress-bar {
+                gap: 3px;
+            }
+            
+            .level-indicator {
+                width: 25px;
+                height: 25px;
+                font-size: 0.7em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- Welcome Screen -->
+        <div class="welcome-screen" id="welcomeScreen">
+            <h1 class="game-title">Memory Test</h1>
+            <div class="rules">
+                <h3>Game Rules</h3>
+                <p>• 20 levels of memory challenge</p>
+                <p>• Each level lasts 5 seconds</p>
+                <p>• Level 1: Remember a 1-digit number</p>
+                <p>• Level 20: Remember a 20-digit number</p>
+                <p>• Memorize the number during countdown</p>
+                <p>• Enter the number after countdown ends</p>
+                <p>• Scoring: Level 1 = 5 points, Level 2 = 10 points... Level 20 = 100 points</p>
+                <p>• Maximum score: 1050 points</p>
+                <p>• 840+ points = Excellent performance!</p>
+            </div>
+            <button class="start-btn" onclick="startGame()">Start Game</button>
+        </div>
+
+        <!-- Game Screen -->
+        <div class="game-screen" id="gameScreen">
+            <div class="progress-bar" id="progressBar"></div>
+            
+            <div class="game-info">
+                <div class="level-title" id="levelTitle">Level 1</div>
+                <div class="countdown" id="countdown">5</div>
+            </div>
+            
+            <div class="number-display" id="numberDisplay">Get Ready!</div>
+            
+            <div class="input-section" id="inputSection">
+                <input type="text" class="number-input" id="numberInput" placeholder="Enter the number">
+                <br>
+                <button class="submit-btn" onclick="submitAnswer()">Submit</button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div class="result-screen" id="resultScreen">
+            <h2>Game Complete!</h2>
+            <div class="final-score" id="finalScore">0</div>
+            <div class="rating" id="rating"></div>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        let currentLevel = 1;
+        let currentNumber = '';
+        let score = 0;
+        let levelResults = [];
+        let countdownTimer;
+
+        function startGame() {
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'flex';
+            initializeProgressBar();
+            startLevel();
+        }
+
+        function initializeProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            progressBar.innerHTML = '';
+            for (let i = 1; i <= 20; i++) {
+                const indicator = document.createElement('div');
+                indicator.className = 'level-indicator';
+                indicator.textContent = i;
+                indicator.id = `level-${i}`;
+                progressBar.appendChild(indicator);
+            }
+        }
+
+        function generateRandomNumber(digits) {
+            let number = '';
+            for (let i = 0; i < digits; i++) {
+                if (i === 0) {
+                    // First digit should not be 0
+                    number += Math.floor(Math.random() * 9) + 1;
+                } else {
+                    number += Math.floor(Math.random() * 10);
+                }
+            }
+            return number;
+        }
+
+        function startLevel() {
+            currentNumber = generateRandomNumber(currentLevel);
+            document.getElementById('levelTitle').textContent = `Level ${currentLevel}`;
+            document.getElementById('numberDisplay').textContent = currentNumber;
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('numberInput').value = '';
+            
+            // Highlight current level
+            document.querySelectorAll('.level-indicator').forEach(indicator => {
+                indicator.classList.remove('current');
+            });
+            document.getElementById(`level-${currentLevel}`).classList.add('current');
+            
+            startCountdown();
+        }
+
+        function startCountdown() {
+            let timeLeft = 5;
+            document.getElementById('countdown').textContent = timeLeft;
+            
+            countdownTimer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('countdown').textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(countdownTimer);
+                    showInputSection();
+                }
+            }, 1000);
+        }
+
+        function showInputSection() {
+            document.getElementById('numberDisplay').textContent = '?';
+            document.getElementById('countdown').textContent = 'Enter the number:';
+            document.getElementById('inputSection').style.display = 'block';
+            document.getElementById('numberInput').focus();
+        }
+
+        function submitAnswer() {
+            const userInput = document.getElementById('numberInput').value.trim();
+            const isCorrect = userInput === currentNumber;
+            
+            levelResults.push(isCorrect);
+            
+            // Update progress bar
+            const levelIndicator = document.getElementById(`level-${currentLevel}`);
+            levelIndicator.classList.remove('current');
+            levelIndicator.classList.add(isCorrect ? 'correct' : 'incorrect');
+            
+            // Calculate score for this level
+            if (isCorrect) {
+                score += currentLevel * 5;
+            }
+            
+            if (currentLevel < 20) {
+                currentLevel++;
+                setTimeout(startLevel, 1000);
+            } else {
+                setTimeout(showResults, 1000);
+            }
+        }
+
+        function showResults() {
+            document.getElementById('gameScreen').style.display = 'none';
+            document.getElementById('resultScreen').style.display = 'block';
+            
+            document.getElementById('finalScore').textContent = `${score} / 1050`;
+            
+            let rating = '';
+            if (score >= 840) {
+                rating = '🏆 Excellent! Outstanding memory!';
+            } else if (score >= 630) {
+                rating = '🥉 Good! Keep practicing!';
+            } else if (score >= 420) {
+                rating = '📈 Fair! You can improve!';
+            } else {
+                rating = '💪 Keep trying! Practice makes perfect!';
+            }
+            
+            document.getElementById('rating').textContent = rating;
+        }
+
+        function restartGame() {
+            currentLevel = 1;
+            currentNumber = '';
+            score = 0;
+            levelResults = [];
+            
+            document.getElementById('resultScreen').style.display = 'none';
+            document.getElementById('welcomeScreen').style.display = 'block';
+        }
+
+        // Allow Enter key to submit answer
+        document.getElementById('numberInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitAnswer();
+            }
+        });
+    </script>
+</body>
+</html>
